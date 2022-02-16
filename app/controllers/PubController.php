@@ -20,7 +20,7 @@ class PubController extends Controller{
         $imageSize=$_FILES['pub']['size'];
         $upload_dir='uploads/pubs/';
         $imgEXT=strtolower(pathinfo($images,PATHINFO_EXTENSION));
-        $valid_extensions=array('jpeg','jpg','png','gif','pdf');
+        $valid_extensions=array('jpeg','jpg','png','gif','mp4');
         $fichier=rand(1000,1000000).".".$imgEXT;
 
 

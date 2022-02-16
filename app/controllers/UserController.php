@@ -16,8 +16,9 @@
         public function index(){
            if(empty($_SESSION["id_user"])) redirect(".");
             $id=$_SESSION["id_user"];
-            $statistique=$this->extraNombre($id);
             $suggests=$this->User->suggest($id);
+            $ext=array('jpeg','jpg','png','gif');
+            $statistique=$this->extraNombre($id);
             $mes_invs=$this->User->mesInvitations($_SESSION["id_user"]);
            
             
@@ -30,7 +31,8 @@
                 "user"=>$user,
                 "statistique"=>$statistique,
                 "suggests"=>$suggests,
-                "mes_invs"=>$mes_invs
+                "mes_invs"=>$mes_invs,
+                "ext"=>$ext
            
             ];
              $this->view("Home",$data);
@@ -57,25 +59,25 @@
                     $mail->Subject="activation of your account ";
                     $mail->setFrom(EMAIL_USERNAME);
                     
-                    $mail->Body="Click the activation  <a href='".URLROOT."activer/".crypt_var($email)."'>link</a>";
+                    $mail->Body="Click the activation  link ".URLROOT."activer/".crypt_var($email);
                     $mail->addAddress($email);
                     if($mail->Send()){
                         $email=crypt_var($email);
                         $_SESSION["encrypted_email"]=$email;
-                        setcookie("message"," Hello, your register is done, please click the activation link we sent to your email  !!!.", time()+5,'/');
+                        $_SESSION["message"]=" Hello, your register is done, please click the activation link we sent to your email  !!!.";
                         redirect("./register");
                         $mail->smtpClose();
                     }
 
                 }
                 else{
-                    setcookie("message_err"," Sorry , your password is not the same  !!!.", time()+5,'/');
+                    $_SESSION["message_err"]=" Sorry , your password is not the same  !!!.";
                       redirect('./register');
                    
                 }
             }else {
                 
-                setcookie("message_email"," Sorry, this mail is already exist !!!.", time()+5,'/');
+                $_SESSION["message_err"]=" Sorry, this mail is already exist !!!.";
                       redirect('./register');
             }
            
@@ -88,14 +90,13 @@
             $mdp=$_POST["mdp"];
             $user=$this->User->getUser($email);
             if(empty($user)){
-                setcookie("message_err"," sorry , your email is incorrect !!!.", time()+5,'/');
+                $_SESSION["message_err"]=" sorry , your email is incorrect !!!.";
                 redirect(".");
             }
             else {
                
                 if(!$user["active"]){
-                    echo $user["active"];
-                    setcookie("message_err","You have to activate your account", time()+5,'/');
+                    $_SESSION["message_err"]="You have to activate your account";
                     redirect(".");
                 }else {
                     if(decrypt_var($user["mdp"])==$mdp){
@@ -107,7 +108,7 @@
                         }
                         else redirect("user/");
                     }else {
-                        setcookie("message_err"," Sorry, your password is incorrect !!!.", time()+5,'/');
+                        $_SESSION["message_err"]=" Sorry, your password is incorrect !!!.";;
                         redirect(".");
                     } 
                 }
@@ -118,9 +119,22 @@
         }
         
 
-        public function completinfo(){
-            $data=[];
 
+        public function completinfo(){
+            if(empty($_SESSION["id_user"])) redirect(".");
+            $id=$_SESSION["id_user"];
+            $statistique=$this->extraNombre($id);
+            $mes_invs=$this->User->mesInvitations($_SESSION["id_user"]);
+           
+            $user=$this->User->getUserId($id);
+            $data=[
+                "user"=>$user,
+                "statistique"=>$statistique,
+                "mes_invs"=>$mes_invs,
+            
+            ];
+            
+            
             $this->view('completinfo',$data);
         }
 
@@ -160,17 +174,21 @@
             else $id=decrypt_var($id_user);
 
             $user=$this->User->getUserId($id);
-            if(empty($user)) redirect("User/");
+            if(count($user)==0) redirect("User/");
             $mesPubs=$this->Pub->mesPublications($id);
             $mes_invs=$this->User->mesInvitations($_SESSION["id_user"]);
-           $statistique=$this->extraNombre($_SESSION["id_user"]);
+             $statistique=$this->extraNombre($id);
             $comments=$this->Pub->Commentaires();
+             $ext=array('jpeg','jpg','png','gif');
+           
+            
             $data=[
                 'user'=>$user,
                 'pubs'=>$mesPubs,
                 "statistique"=>$statistique,
                 "comments"=>$comments,
-                "mes_invs"=>$mes_invs
+                "mes_invs"=>$mes_invs,
+                "ext"=>$ext
             ];
             
             $this->view("profile",$data);
@@ -184,7 +202,7 @@
 
                 $email=$_POST["email"];
                 if($this->User->activeAccount($email)){
-                    setcookie("message",'Your account has been activated you may login ',time()+5,'/');
+                    $_SESSION["message"]='Your account has been activated you may login ';
                     redirect(".");
                 }
 
@@ -204,20 +222,20 @@
                  //Set sender email
                 $mail->setFrom(EMAIL_USERNAME);
                 // Email body
-                $mail->Body = "To reset your password click  <a href='".URLROOT."resetPassword/".$email."'>here</a>";
+                $mail->Body = "To reset your password click  ".URLROOT."resetPassword/".$email."";
             //Add recipient
                 $mail->addAddress($user["email"]);
             //Finally send email
                 if($mail->Send()){
                     $_SESSION["encrypted_email"]=$email;
-                    setcookie("message",'Check your email',time()+3,'/forgotPassword');
+                    $_SESSION["message"]='Check your email';
                     
                 }
                 
             //Closing smtp connection
                 $mail->smtpClose();
             }else {
-                setcookie("message",'Incorrect email',time()+3,'/forgotPassword');
+                $_SESSION["message_err"]='Incorrect email';
               
             }
 
@@ -232,7 +250,7 @@
             $pwd=$_POST["pwd"];
 
             if($this->User->updatePwd($email,crypt_var($pwd))){
-                setcookie("message",'Your password has been changed, You may check your spam',time()+3,'/');
+                $_SESSION["message"]='Your password has been changed, You may check your spam';
                 redirect(".");
             }
            

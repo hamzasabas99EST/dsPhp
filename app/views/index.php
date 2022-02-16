@@ -2,20 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Site web</title>
+      <?php include APPROOT . "/views/Components/header.php"; ?>
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?= URLROOT ?>/template/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="<?= URLROOT ?>/template/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="<?= URLROOT ?>/template/dist/css/adminlte.min.css">
-     <!--Sweet Alert2-->
-   <link rel="stylesheet" href="<?=URLROOT?>/template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 </head>
 
 <body class="hold-transition login-page">
@@ -77,15 +65,11 @@
     </div>
     <!-- /.login-box -->
 
-    <!-- jQuery -->
-    <script src="<?= URLROOT ?>/template/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="<?= URLROOT ?>/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="<?= URLROOT ?>/template/dist/js/adminlte.min.js"></script>
+     <?php include APPROOT . "/views/Components/scripts.php"; ?>
+
 
         
-<?php if(isset($_COOKIE["message"])):?>
+<?php if(isset($_SESSION["message"])):?>
 
             <script src="<?=URLROOT?>/template/plugins/sweetalert2/sweetalert2.min.js"></script>
             <script type="text/javascript">
@@ -97,13 +81,13 @@
                 });
                 Toast.fire({
                     icon: 'success',
-                    title:'<?=$_COOKIE["message"]?>' ,
+                    title:'<?=$_SESSION["message"]?>' ,
                 })
 
             </script>
 
-<?php endif;?>
-<?php if(isset($_COOKIE["message_err"])): ?>
+<?php unset($_SESSION["message"]); endif;?>
+<?php if(isset($_SESSION["message_err"])): ?>
 
     <script src="<?=URLROOT?>/template/plugins/sweetalert2/sweetalert2.min.js"></script>
         <script type="text/javascript">
@@ -115,11 +99,11 @@
                 });
                 Toast.fire({
                     icon: 'info',
-                    title: ' <?=$_COOKIE["message_err"]?>'
+                    title: ' <?=$_SESSION["message_err"]?>'
                 })
 
         </script>
-<?php endif;?>
+<?php  endif; unset($_SESSION["message_err"]);?>
     
 </body>
 

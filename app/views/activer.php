@@ -1,18 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Site web</title>
+    <?php include APPROOT . "/views/Components/header.php"; ?>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="<?=URLROOT?>/template/plugins/fontawesome-free/css/all.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="<?=URLROOT?>/template/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?=URLROOT?>/template/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -37,12 +27,7 @@
   </div>
 </div>
 <!-- /.login-box -->
+  <?php include APPROOT . "/views/Components/scripts.php"; ?>
 
-<!-- jQuery -->
-<script src="<?=URLROOT?>/template/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?=URLROOT?>/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<?=URLROOT?>/template/dist/js/adminlte.min.js"></script>
 </body>
 </html>

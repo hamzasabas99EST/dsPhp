@@ -13,7 +13,7 @@
 
         //Cette fonction permet d'afficher les publication d'utilisateur
         public function mesPublications($id){
-            $this->conn->query("SELECT p.*,u.fullname,u.image_profil,COUNT(a.id_publication) as  'likes' FROM publication  p  JOIN utilisateur u USING(id_utilisateur)  LEFT JOIN aime a USING(id_publication)  WHERE p.id_utilisateur=:id GROUP BY p.id_publication  " );
+            $this->conn->query("SELECT p.*,u.fullname,u.image_profil,COUNT(a.id_publication) as  'likes' FROM publication  p  JOIN utilisateur u USING(id_utilisateur)  LEFT JOIN aime a USING(id_publication)  WHERE p.id_utilisateur=:id GROUP BY p.id_publication   ORDER BY id_publication DESC " );
             $this->conn->bind("id",$id);
             $mypubs=$this->conn->resultset();
             if($this->conn->rowCount()>=0){

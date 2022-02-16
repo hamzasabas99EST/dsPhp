@@ -63,13 +63,8 @@
     </div>
   </div>
   <!-- /.login-box -->
+  <?php include APPROOT . "/views/Components/scripts.php"; ?>
 
-  <!-- jQuery -->
-  <script src="<?= URLROOT ?>/template/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="<?= URLROOT ?>/template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="<?= URLROOT ?>/template/dist/js/adminlte.min.js"></script>
   <script type="text/javascript">
     function identicPwd() {
       

@@ -3,16 +3,16 @@
 
 //Configuration Base de Données
 define('DB_HOST','localhost');
-define('DB_USER','root');
-define('DB_PWD','');
-define('DB_NAME','chat');
+define('DB_USER','id18453070_dsphp');
+define('DB_PWD','Ens@sDSphp2022');
+define('DB_NAME','id18453070_chat');
 
 // APPROOT
 define('APPROOT', dirname(dirname(__FILE__)));
 // URLROOT
-define('URLROOT', 'http://localhost/dsPhp/');
+define('URLROOT', 'https://sabasboudraphp.000webhostapp.com/dsPhp/');
 // WEBSITE NAME
-define('SITENAME', 'simpleMVC');
+define('SITENAME', 'Application Sabas Boudra');
 
 //configuration Email
 define("EMAIL_HOST","smtp.gmail.com");

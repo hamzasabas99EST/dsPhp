@@ -85,14 +85,22 @@
         } 
 
         //Cette function permet d'afficher des propositions pour ajouter amis
+       //Cette function permet d'afficher des propositions pour ajouter amis
         public function suggest($id){
-            $this->conn->query("SELECT * FROM utilisateur WHERE id_utilisateur!=$id");
+            $this->conn->query("
+            SELECT * from utilisateur 
+            WHERE id_utilisateur!=:id 
+            AND  ( id_utilisateur NOT IN( SELECT id_emetteur from invitation) 
+                 OR id_utilisateur NOT IN ( SELECT id_recepteur from invitation) 
+                 )
+            ");
             $this->conn->bind("id",$id);
             $users=$this->conn->resultset();
             if($this->conn->rowCount()>=0){
                 return $users;
             }
         }
+
 
 
         //Cette fonction permet de récuprér les amis d'utilisateur

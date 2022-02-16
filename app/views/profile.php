@@ -122,7 +122,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                   <hr>
 
-                  <strong><i class="far fa-file-alt mr-1"></i> <?=count($data["pubs"])?></strong>
+                  <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
 
                   <p class="text-muted"><?= $data["user"]["notes"] ?></p>
                 </div>
@@ -167,9 +167,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           <!-- /.user-block -->
                           <div class="row ">
                           <p><?=$pub["contenu_text"]?></p>
-                            <div class="col-sm-12">
-                              <img class="img-fluid" src="<?= URLROOT ?>uploads/pubs/<?= $pub["image"] ?>" alt="Photo">
-                            </div>
+                           <div class="col-sm-12">
+                             <?php if(in_array(substr($pub["image"],-3),$data["ext"])){?>
+                                <img class="img-fluid" src="<?= URLROOT ?>uploads/pubs/<?= $pub["image"] ?>" alt="Photo" style="width:100%; height:500px">
+                            <?php }else {?>
+                                <video style="width:100%" height="500" controls>
+                                    <source src="<?= URLROOT ?>uploads/pubs/<?= $pub["image"] ?>"  type="video/mp4">
+                                    <source src="movie.ogg" type="video/ogg">
+                                  Your browser does not support the video tag.
+                                  </video>
+                              <?php }?>
+                              </div>
+                           
                             <!-- /.col -->
 
                             <!-- /.col -->
@@ -192,7 +201,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <span class="username">
                                       <?= $comment["fullname"] ?>
 
-                                      <span class="text-muted float-right"><?= convertDateToFormat($comment["date_commentaire"]) ?> <i class="fas fa-trash delete" style="cursor:pointer" data-id="<?= $comment["id_commentaire"] ?>"></i></span>
+                                      <span class="text-muted float-right"><?= convertDateToFormat($comment["date_commentaire"]) ?> 
+                                        <?php if($comment["id_utilisateur"]==$data["user"]["id_utilisateur"]):?>
+                                          <i class="fas fa-trash delete" style="cursor:pointer" data-id="<?= $comment["id_commentaire"] ?>">
+                                          </i>
+                                        <?php endif;?>
+                                      </span>
                                     </span><!-- /.username -->
                                     <?= $comment["contenu"] ?>
                                   </div>
